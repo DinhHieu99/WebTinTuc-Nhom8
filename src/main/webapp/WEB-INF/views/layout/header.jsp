@@ -18,8 +18,7 @@
 
 			<!-- nav -->
 			<ul class="nav-menu nav navbar-nav">
-				<li><a href="/category">TIN TỨC</a></li>
-				<li><a href="/category">PHỔ BIẾN</a></li>
+				
 				<c:forEach var="categories" items="${categories}">
 					<li class="cat-${categories.id}"><a
 						href="/category/${categories.name}">${categories.name}</a></li>
@@ -77,12 +76,9 @@
 							alt="Người dùng không có ảnh"></a>
 						<div class="post-body">
 							<h4 class="">
-								<a href="/information-user/<%=session.getAttribute("idUser")%>"><p>
+								<a href="/information-user/<%=session.getAttribute("idUser")%>" style="text-decoration: none;"><p>
 									<%=session.getAttribute("nameUser")%><br> <span>
 										Email: <%=session.getAttribute("emailUser")%></span></a>
-									<!-- <button href="/edit-user" class="btn btn-sm btn-outline-primary ">Sửa</button>
-							<button id="cancel" class="btn btn-sm btn-outline-primary none_edit">Huỷ</button> -->
-									<a href="/edit-user/<%=session.getAttribute("idUser")%>">Sửa</a>
 								</p>
 							</h4>
 						</div>

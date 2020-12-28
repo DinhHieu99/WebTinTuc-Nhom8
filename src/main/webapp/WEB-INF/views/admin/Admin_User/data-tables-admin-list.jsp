@@ -60,7 +60,7 @@
 				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 					<div class="page-header">
 						<h2 class="pageheader-title">Danh sách tài khoản admin</h2>
-						
+
 						<div class="page-breadcrumb">
 							<nav aria-label="breadcrumb">
 								<ol class="breadcrumb">
@@ -68,7 +68,8 @@
 										class="breadcrumb-link">Nhóm 8</a></li>
 									<li class="breadcrumb-item"><a href="#"
 										class="breadcrumb-link">Quản trị viên</a></li>
-									<li class="breadcrumb-item active" aria-current="page">Danh sách tài khoản admin</li>
+									<li class="breadcrumb-item active" aria-current="page">Danh
+										sách tài khoản admin</li>
 								</ol>
 							</nav>
 						</div>
@@ -90,7 +91,7 @@
 					<div class="card">
 						<div class="card-header">
 							<h5 class="mb-0">List Admin</h5>
-							
+
 						</div>
 
 						<div class="card-body">
@@ -105,11 +106,11 @@
 										<tr>
 											<th>>Ảnh</th>
 											<th>Email</th>
-											<th>Mật khẩu</th>
+											<!--<th>Mật khẩu</th>-->
 											<th>Họ và tên</th>
 											<!--  <th>Trạng thái</th> -->
 
-											<th>Chức vụ</th>
+											<!--<th>Chức vụ</th>-->
 											<th>Ngày sinh</th>
 											<th>Hành động</th>
 										</tr>
@@ -121,7 +122,7 @@
 													src="${pageContext.request.contextPath}/img/${admin.image}"
 													alt=" lỗi ảnh" style="width: 100px; hight: 75px;"></td>
 												<td>>${admin.email }</td>
-												<td style="-webkit-text-security: disc;">${admin.pass }</td>
+												<!-- <td style="-webkit-text-security: disc;">${admin.pass }</td> -->
 												<td>${admin.fullName }</td>
 												<!--<c:if test="${admin.stt == true }">
 													<td>Online</td>
@@ -130,14 +131,15 @@
 													<td>Offline</td>
 												</c:if>-->
 
-												<td>>${admin.position }</td>
+												<!-- <td>>${admin.position }</td>-->
 												<td>>${admin.dob }</td>
 												<td>
 													<div class="btn-group ml-auto">
 														<a href="/admin/edit_admin/${admin.id }"><button
 																class="btn btn-sm btn-outline-light">Edit</button></a> <a
 															href="/admin/data-tables-admin-list/${admin.id }"><button
-																class="btn btn-sm btn-outline-light">
+																class="btn btn-sm btn-outline-light"
+																onclick="return window.confirm('Bạn có chắc chắn muốn xoá tài khoản này không?');">
 																<i class="far fa-trash-alt"></i>
 															</button></a>
 													</div>
@@ -145,7 +147,7 @@
 											</tr>
 										</c:forEach>
 									</tbody>
-									<tfoot>
+									<!-- <tfoot>
 										<th>Tên đăng nhập</th>
 										<th>Mật khẩu</th>
 										<th>Họ và tên</th>
@@ -153,7 +155,7 @@
 										<th>Email</th>
 										<th>Chức vụ</th>
 										<th></th>
-									</tfoot>
+									</tfoot> -->
 								</table>
 							</div>
 						</div>

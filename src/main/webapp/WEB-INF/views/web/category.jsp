@@ -86,7 +86,7 @@
 						<div class="col-md-12">
 							<div class="post post-row">
 								<a class="post-img" href="/blog-post/${post.id}-${post.title}"><img
-									src="${post.image}" alt=""></a>
+									src="${pageContext.request.contextPath}/img/${post.image}" alt=""></a>
 								<div class="post-body">
 									<div class="post-meta">
 										<a class="post-category cat-${post.category.id}" href="#">${post.category.name}</a> <span

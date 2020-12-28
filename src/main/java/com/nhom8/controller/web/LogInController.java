@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,49 +33,55 @@ public class LogInController {
 
 		return "web/login";
 	}
-	
+
 	@PostMapping("/DangNhap")
-	public String logIn(@ModelAttribute("Login") User user, ModelMap model,final HttpServletRequest request,final HttpServletResponse response) {
+	public String logIn(@ModelAttribute("Login") User user, ModelMap model, final HttpServletRequest request,
+			final HttpServletResponse response) {
 		System.out.println("=======================login user============================");
 		System.out.println("email : " + user.getEmail());
 		System.out.println("Password : " + user.getPass());
 		String email = user.getEmail();
 		String pass = user.getPass();
-		List<User> admin = userService.findAll();
+		List<User> users = userService.findAll();
+			
+		for (User tk : users) {
+			if (user.getEmail().equals(tk.getEmail())) {
 
-		for (User tk : admin) {
-			if (user.getEmail().equals(tk.getEmail()) && user.getPass().equals(tk.getPass())) {
-				System.out.println("================================== login ===================================================");
-				int id  = tk.getId();
-				userService.updateStatusForId(true, id);
-				
-				System.out.println(userService.updateStatusForId(true, id));
-				
-				HttpSession session = request.getSession(true);
-				String name = tk.getUserName().toString();
-				
-				session.setAttribute("nameUser", name);
-				System.out.println(session.getAttribute("nameUser"));
-				session.setAttribute("emailUser", user.getEmail().toString());
-				System.out.println(session.getAttribute("emailUser"));
-				session.setAttribute("idUser", id);
-				String img = tk.getImage();
-				session.setAttribute("imgUser", img);
-				System.out.println(session.getAttribute("idUser"));
-				
-				return "redirect:/index";
-				
+				boolean valuate = BCrypt.checkpw(pass, tk.getPass());
+				System.out.println(valuate);
+				if (valuate == true) {
+					System.out.println(
+							"================================== login ===================================================");
+					int id = tk.getId();
+					userService.updateStatusForId(true, id);
+
+					System.out.println(userService.updateStatusForId(true, id));
+
+					HttpSession session = request.getSession(true);
+					
+					String name = tk.getUserName().toString();
+					session.setAttribute("nameUser", name);
+					session.setAttribute("emailUser", user.getEmail().toString());
+					session.setAttribute("idUser", id);
+					String img = tk.getImage();
+					session.setAttribute("imgUser", img);
+					System.out.println(session.getAttribute("nameUser"));
+					System.out.println(session.getAttribute("emailUser"));
+					System.out.println(session.getAttribute("idUser"));
+
+					return "redirect:/index";
+				}
 			}
 		}
 		return "web/login";
 	}
-	
+
 	@RequestMapping(value = { "/logout" }, method = { RequestMethod.GET })
 	public String DangXuat(Model model, final HttpServletRequest request, final HttpServletResponse response) {
-		
+
 		HttpSession session = request.getSession();
 		if (CheckLoginUser.Check(request) == true) {
-			
+
 			int id = (int) session.getAttribute("idUser");
 			userService.updateStatusForId(false, id);
 			session.removeAttribute("nameUser");
@@ -83,9 +90,8 @@ public class LogInController {
 			session.removeAttribute("imgUser");
 			return "redirect:/index";
 		}
-		
+
 		return "redirect:/index";
 	}
 
-	
 }

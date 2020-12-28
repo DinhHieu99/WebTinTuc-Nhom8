@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,27 +60,30 @@ public class LogInAdminController {
 		Integer id = adminRepository.selectIdByUserName(userEmail);
 		List<Admin> adminEntity = adminRepository.findAll();
 		for (Admin tk : adminEntity) {
-			if (admin.getEmail().equals(tk.getEmail()) && admin.getPass().equals(tk.getPass())) {
+			if (admin.getEmail().equals(tk.getEmail())){
 				
-				adminRepository.updateSttForId(true, id);
-				
-				HttpSession session = request.getSession();
-				String name = tk.getFullName().toString();
-				String pass = tk.getPass().toString();
-				String email = tk.getEmail().toString();
-				int Id = tk.getId();
-				String chucvu = tk.getPosition().toString();
-				String images = tk.getImage();
-				//int Id = admin.getId();
-				session.setAttribute("name", name);
-				session.setAttribute("pass", pass);
-				session.setAttribute("chucvu", chucvu);
-				session.setAttribute("email", email);
-				session.setAttribute("ID", Id);
-				session.setAttribute("image", images);
-				System.out.println("=======================Đăng nhập thành công============================");
-				return "redirect:/admin";
-				
+				boolean valuate = BCrypt.checkpw(admin.getPass(), tk.getPass());
+				System.out.println(valuate);
+				if (valuate == true) {
+					adminRepository.updateSttForId(true, id);
+					
+					HttpSession session = request.getSession();
+					String name = tk.getFullName().toString();
+					String pass = tk.getPass().toString();
+					String email = tk.getEmail().toString();
+					int Id = tk.getId();
+					String chucvu = tk.getPosition().toString();
+					String images = tk.getImage();
+					//int Id = admin.getId();
+					session.setAttribute("name", name);
+					session.setAttribute("pass", pass);
+					session.setAttribute("chucvu", chucvu);
+					session.setAttribute("email", email);
+					session.setAttribute("ID", Id);
+					session.setAttribute("image", images);
+					System.out.println("=======================Đăng nhập thành công============================");
+					return "redirect:/admin";
+				}
 			}
 		}
 		return "admin/loginAdmin";
